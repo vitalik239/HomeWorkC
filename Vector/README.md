@@ -1,1 +1,1 @@
-Vector with <bool> specialization
+Vector with bool specialization
