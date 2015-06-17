@@ -26,6 +26,8 @@ public:
             new(p) T(Data[i]); 
             p++;
         }
+        for (int i = 0; i < cap / 2; i++)
+            Data[i].~T();
         free(Data);
         Data = Temp;
     }

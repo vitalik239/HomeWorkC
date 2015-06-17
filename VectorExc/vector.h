@@ -25,35 +25,50 @@ public:
             T* p = Temp;
             for (int i = 0; i < size; i++)
             {
-                new(p) T(Data[i]); 
-                p++;
+                try 
+                {
+                    new(p) T(Data[i]); 
+                    p++;
+                }
+                catch (...)
+                {
+                    throw(i);
+                }
             }
         }
-        catch (...)
+        catch (int a)
         {
+            for (int i = 0; i < a; i++)
+                Temp[i].~T();
             free(Temp);
             Temp = NULL;
-            throw("Something went wrong");
         }
         if (Temp)
         {
+            for (int i = 0; i < size; i++)
+                Data[i].~T();
             free(Data);
             Data = Temp;
         }
     }
     void push_back(T a)
     {
-        if (cap == size)
-            resize();
         try
         {
+            try
+            {
+                if (cap == size)
+                    resize();
+            }
+            catch (...)
+            {
+                throw;    
+            } 
             new(&Data[size]) T(a);
+            size++;
         }
         catch (...)
-        {
-            throw("Placement New fail");
-        }
-        size++;
+        {}
     }
     void pop_back()
     {

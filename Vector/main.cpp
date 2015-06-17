@@ -7,7 +7,7 @@ class BrokenOne {
 public:
     int a, b, c;
     BrokenOne(int x, int y, int z) : a(x), b(y), c(z) {}
-    BrokenOne& operator=(BrokenOne& x)
+    BrokenOne& operator=(const BrokenOne& x)
     {
         if (this == &x)
             return *this;
