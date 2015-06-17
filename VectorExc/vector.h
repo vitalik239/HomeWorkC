@@ -38,6 +38,7 @@ public:
         }
         catch (int a)
         {
+            cap /= 2;
             for (int i = 0; i < a; i++)
                 Temp[i].~T();
             free(Temp);
