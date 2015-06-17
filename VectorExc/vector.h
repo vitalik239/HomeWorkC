@@ -43,6 +43,7 @@ public:
                 Temp[i].~T();
             free(Temp);
             Temp = NULL;
+            throw;
         }
         if (Temp)
         {
