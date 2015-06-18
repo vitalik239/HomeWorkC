@@ -5,17 +5,17 @@ using namespace std;
 
 struct a 
 {
-	void foo()
+	/*void foo()
 	{
-		cout << "A" << endl;
-	}
+		cerr << "A" << endl;
+	}*/
 };
 
 struct b 
 {
 	void foo()
 	{
-		cout << "B" << endl;
+		cerr << "B" << endl;
 	}
 };
 
@@ -23,7 +23,7 @@ struct c
 {
 	void foo()
 	{
-		cout << "C" << endl;
+		cerr << "C" << endl;
 	}
 };
 
@@ -38,11 +38,25 @@ struct list {
 template <typename list>
 struct Inherit : list::Head, Inherit<typename list::Tail>
 {
-	typedef typename list::Head P1;
-	typedef Inherit<typename list::Tail> P2;
+	typedef typename list::Head This;
+	typedef Inherit<typename list::Tail> Next;
+
+	template <void (This::*)()>
+	struct Try {};
+
+	template <typename T>
+	void Call(Try<&T::foo>*)
+	{
+		This::foo();
+	}
+
+	template <typename T>
+	void Call(...) {
+	}
+
 	void foo() {
-	    ((P1 *)this)->foo();
-	    ((P2 *)this)->foo();
+	    Call <This> (nullptr);
+	    ((Next *)this)->foo();
 	}
 };
 
@@ -57,3 +71,5 @@ int main()
 	s.foo();
 	return 0;
 }
+
+
